@@ -7,14 +7,15 @@ const orderStore = useOrderStore()
 // 单选回调
 const singleCheck = (i, selected) => {
   console.log(i, selected)
-  // store cartList 数组 无法知道要修改谁的选中状态？
-  // 除了selected补充一个用来筛选的参数 - skuId
   cartStore.singleCheck(i.skuId, selected)
 }
 
-
 const allCheck = (selected) => {
   cartStore.allCheck(selected)
+}
+
+const handleClear = () => {
+  orderStore.clearOrder()
 }
 </script>
 
@@ -31,12 +32,8 @@ const allCheck = (selected) => {
                 <th width="180">小计</th>
             </tr>
           </thead>
-                    <!-- <div>
-            <p>{{orderStore.OrderList}}</p>
-          </div> -->
-          <!-- 商品列表 -->
-           <tbody>
-            <tr v-for="i in orderStore.OrderList" >
+          <tbody>
+            <tr v-for="i in orderStore.OrderList.filter(i => i.name && i.picture && i.price && i.count)" :key="i.skuId">
               <td>
                 <div class="goods">
                   <RouterLink to="/"><img :src="i.picture" alt="" /></RouterLink>
@@ -48,14 +45,13 @@ const allCheck = (selected) => {
                 </div>
               </td>
               <td class="tc">
-                <p>&yen;{{ i.price }}</p>
+                <p>&yen;{{ parseFloat(i.price).toFixed(2) }}</p>
               </td>
               <td class="tc">
-                <!-- <el-input-number v-model="i.count" /> -->
-                <p>{{ i.count }}</p>
+                <p>{{ parseInt(i.count) }}</p>
               </td>
               <td class="tc">
-                <p class="f16 red">&yen;{{ (i.price * i.count).toFixed(2) }}</p>
+                <p class="f16 red">&yen;{{ (parseFloat(i.price) * parseInt(i.count)).toFixed(2) }}</p>
               </td>
             </tr>
             <tr v-if="orderStore.OrderList.length === 0">
@@ -67,16 +63,16 @@ const allCheck = (selected) => {
                 </div>
               </td>
             </tr>
-          </tbody> 
-
+          </tbody>
         </table>
       </div>
       <!-- 操作栏 -->
-       <div class="action">
+      <div class="action">
         <div class="batch">
-          共 {{orderStore.allCount }} 件商品，商品合计：
+          共 {{ orderStore.allCount }} 件商品，商品合计：
           <span class="red">¥ {{ orderStore.selectedPrice.toFixed(2) }} </span>
         </div>
+        <el-button type="danger" @click="handleClear">清空订单</el-button>
       </div>
     </div>
   </div>
@@ -156,8 +152,8 @@ const allCheck = (selected) => {
     align-items: center;
 
     img {
-      width: 100px;
-      height: 100px;
+      width: 60px;
+      height: 60px;
     }
 
     >div {
@@ -205,6 +201,5 @@ const allCheck = (selected) => {
     font-weight: normal;
     line-height: 50px;
   }
-
 }
 </style>
