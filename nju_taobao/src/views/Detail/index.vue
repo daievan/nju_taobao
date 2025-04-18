@@ -2,12 +2,6 @@
 <template>
   <div class="xtx-goods-page">
     <div class="container">
-<!--       
-      <div>
-        <p>123</p>
-        <p>{{cartStore.cartList}}</p>
-        <p>{{CommentStore.commentList}}</p>
-      </div> -->
       <div class="info-container">
         <div>
           

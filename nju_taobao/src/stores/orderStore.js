@@ -34,7 +34,6 @@ export const useOrderStore = defineStore('Order', () => {
     OrderList.value.forEach(item => item.selected = selected)
   }
 
-  // ✅ 修复 NaN 问题的总数计算（强转 + 容错）
   const allCount = computed(() =>
     OrderList.value.reduce((a, c) => {
       const count = parseInt(c.count)

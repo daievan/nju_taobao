@@ -12,7 +12,6 @@ const Order = () => import('@/views/Order/index.vue')
 // 新增：登录/注册页面
 const Login = () => import('@/views/Login/index.vue')
 
-// 可选：404 页面（你可以自建一个 NotFound.vue，如果不需要可以移除）
 const NotFound = () => import('@/views/NotFound.vue')
 
 const routes = [
